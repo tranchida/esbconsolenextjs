@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Metadata } from "next";
+import { ClientProvider } from "./providers";
+import { Navigation } from "./components/Navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +29,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ClientProvider>
+          <header className="bg-blue-600 text-white p-4">
+            <div className="container mx-auto">
+              <h1 className="text-2xl font-bold">ESB Console</h1>
+            </div>
+          </header>
+          <Navigation />
+          <main className="container mx-auto p-4">
+            {children}
+          </main>
+        </ClientProvider>
       </body>
     </html>
   );
