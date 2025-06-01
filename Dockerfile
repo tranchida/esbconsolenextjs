@@ -2,6 +2,15 @@
 
 FROM node:24.1.0-alpine AS base
 
+FROM base AS builder
+WORKDIR /app
+
+COPY package.json .
+RUN npm install
+
+COPY . .
+RUN npm run build
+
 FROM base AS runner
 WORKDIR /app
 
@@ -9,8 +18,8 @@ ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY --chown=nextjs:nodejs .next/standalone ./
-COPY --chown=nextjs:nodejs .next/static ./.next/static
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 USER 1001:1001
 
