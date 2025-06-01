@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: esbconsole-nextjs
+  labels:
+    app: esbconsole-nextjs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: esbconsole-nextjs
+  template:
+    metadata:
+      labels:
+        app: esbconsole-nextjs
+    spec:
+      containers:
+      - name: esbconsole-nextjs
+        image: tranchida/esbconsolenextjs:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3000"
+        - name: HOSTNAME
+          value: "0.0.0.0"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /api/liveness
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/readiness
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: esbconsole-nextjs-service
+spec:
+  selector:
+    app: esbconsole-nextjs
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP 

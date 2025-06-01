@@ -1,11 +1,14 @@
 import DisplayDemo from "@/app/components/DisplayDemo";
-import ApiService from "@/app/services/api.service";
+import { getAllMessages } from "@/app/services/message.service";
 
-export default async function Dashboard({ params }: { params: { env: string } }) {
+type Props = {
+    params: Promise<{ env: string }>
+}
+
+export default async function Dashboard({ params }: Props) {
     const { env } = await params;
 
-    const data = await ApiService.get('/api/messages');
-    console.log(data);
+    const data = getAllMessages();
     
     return <DisplayDemo pageName="Dashboard" env={env} data={data} />;
 }

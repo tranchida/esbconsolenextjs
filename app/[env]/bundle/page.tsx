@@ -1,6 +1,10 @@
 import DisplayDemo from "@/app/components/DisplayDemo";
 
-export default async function Bundle({ params }: { params: { env: string } }) {
+type Props = {
+    params: Promise<{ env: string }>
+}
+
+export default async function Bundle({ params }: Props) {
     const { env } = await params;
     return <DisplayDemo env={env} pageName="Bundle" />
 }
