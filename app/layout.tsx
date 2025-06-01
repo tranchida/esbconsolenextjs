@@ -27,18 +27,28 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-slate-50 text-slate-800`}
       >
         <ClientProvider>
-          <header className="bg-blue-600 text-white p-4">
-            <div className="container mx-auto">
+          <header className="bg-gradient-to-r from-sky-500 to-indigo-600 text-white shadow-lg sticky top-0 z-50">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center justify-between">
               <h1 className="text-2xl font-bold">ESB Console</h1>
-            </div>
+              <Navigation />
+              </div>
+          </div>
           </header>
-          <Navigation />
-          <main className="container mx-auto p-4">
-            {children}
+          <main className="flex-grow pb-24">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              {children}
+            </div>
           </main>
+          <footer className="bg-slate-800 text-slate-300 shadow-inner fixed bottom-0 left-0 w-full z-40">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+              <p className="text-sm">&copy; <span id="currentYear"></span> ESB Console. Tous droits réservés.</p>
+              <p className="text-xs mt-1">Une création utilisant la puissance de Tailwind CSS.</p>
+          </div>
+        </footer>
         </ClientProvider>
       </body>
     </html>

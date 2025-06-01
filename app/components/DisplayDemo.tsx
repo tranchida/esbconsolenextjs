@@ -6,7 +6,7 @@ export default function DisplayDemo(props: { pageName: string, env: string, data
     const { env, envs } = useGlobalContext();
     const currentEnv = envs.find(e => e.id === env);
     return (
-        <div>
+        <>
             <div>{props.pageName} {props.env} {currentEnv?.label}</div>
             {props.data && props.env == 'in'? (
                 props.data.map((item: any, index: number) => (
@@ -17,6 +17,6 @@ export default function DisplayDemo(props: { pageName: string, env: string, data
             ) : (
                 <div>No data</div>
             )}
-        </div>
+        </>
     );
 }
